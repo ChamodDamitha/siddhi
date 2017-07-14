@@ -1,6 +1,7 @@
 package org.wso2.siddhi.extension.approximate;
 
-import com.tdunning.math.stats.TDigest;
+
+import org.wso2.siddhi.extension.approximate.TDigest.TDigest;
 
 /**
  * Created by chamod on 7/13/17.
