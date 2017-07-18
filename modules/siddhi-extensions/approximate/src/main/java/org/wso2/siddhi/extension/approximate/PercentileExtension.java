@@ -113,6 +113,7 @@ public class PercentileExtension extends StreamProcessor{
             if (outputData == null) {
                 streamEventChunk.remove();
             } else {
+//                alter the stream
                 complexEventPopulater.populateComplexEvent(complexEvent,outputData);
             }
         }

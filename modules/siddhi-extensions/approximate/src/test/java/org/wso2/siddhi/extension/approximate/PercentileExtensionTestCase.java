@@ -27,6 +27,7 @@ import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.event.Event;
 import org.wso2.siddhi.core.query.output.callback.QueryCallback;
 import org.wso2.siddhi.core.stream.input.InputHandler;
+import org.wso2.siddhi.core.stream.output.StreamCallback;
 import org.wso2.siddhi.core.util.EventPrinter;
 
 public class PercentileExtensionTestCase {
@@ -47,17 +48,17 @@ public class PercentileExtensionTestCase {
 
         String inStreamDefinition = "define stream inputStream (number double);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream#approximate:percentile(number,0.5,0.001)" +
+                "from inputStream#approximate:percentile(number,0.5,0.01)" +
                 "select * " +
                 "insert into outputStream;");
 
         ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
 
-        executionPlanRuntime.addCallback("query1", new QueryCallback() {
+        executionPlanRuntime.addCallback("outputStream", new StreamCallback() {
             @Override
-            public void receive(long timeStamp, Event[] inEvents, Event[] removeEvents) {
-                EventPrinter.print(timeStamp, inEvents, removeEvents);
-                for (Event inEvent : inEvents) {
+            public void receive(Event[] events) {
+                EventPrinter.print(events);
+                for (Event inEvent : events) {
                     count++;
                     if (count == 1) {
                         Assert.assertEquals(2.3, inEvent.getData(1));
@@ -76,8 +77,15 @@ public class PercentileExtensionTestCase {
             }
         });
 
+
+
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
+//        for(double i=120;i>0;i-=0.5) {
+//            inputHandler.send(new Object[]{i});
+//
+//        }
+
         inputHandler.send(new Object[]{2.3});
         inputHandler.send(new Object[]{4.4});
         inputHandler.send(new Object[]{1.8});
