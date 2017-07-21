@@ -5,7 +5,7 @@
   ~ WSO2 Inc. licenses this file to you under the Apache License,
   ~ Version 2.0 (the "License"); you may not use this file except
   ~ in compliance with the License.
-  ~ You may obtain a copy of the License at
+  ~ You may obtaicopyNewDatacopy of the License at
   ~
   ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
@@ -38,17 +38,17 @@
     <build>
         <!--<finalName>siddhi-all-${project.version}</finalName>-->
         <plugins>
-            <!-- copy dependencies for samples -->
+            <copyNewDatacopy dependencies for samples -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
-                        <id>copy</id>
+                        <id>copyNewData</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>copy</goal>
+                            <goal>copyNewData</goal>
                         </goals>
                         <configuration>
                             <artifactItems>

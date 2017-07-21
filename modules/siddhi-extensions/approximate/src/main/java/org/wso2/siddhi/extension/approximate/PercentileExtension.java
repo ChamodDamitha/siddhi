@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
- *
- * WSO2 Inc. licenses this file to you under the Apache License,
- * Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
+* Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+*
+* WSO2 Inc. licenses this file to you under the Apache License,
+* Version 2.0 (the "License"); you may not use this file except
+* in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied. See the License for the
+* specific language governing permissions and limitations
+* under the License.
+*/
 
 package org.wso2.siddhi.extension.approximate;
 
@@ -36,7 +36,7 @@ import java.util.*;
 
 /**
  * The following code conducts finding percentiles of an event stream.
- * This implements the TDigest algorithm for approximate answers which was originally described in
+ * This implements the tdigest algorithm for approximate answers which was originally described in
  * https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwi7n5bFy_bUAhWHqI8KHcKqAsgQFgglMAA
  * &url=https%3A%2F%2Fraw.githubusercontent.com%2Ftdunning%2Ft-digest%2Fmaster%2Fdocs%2Ft-digest-paper%2Fhisto.pdf
  * &usg=AFQjCNFLJPx3pzBKx1ipxlLgzKtKA9ynNA
@@ -151,12 +151,14 @@ public class PercentileExtension extends StreamProcessor{
         }
 
 //      Create the initial PercentileCalculator based on the certainty
-        if(certainty < 1) {
-            percentileCalculater = new PercentileApproximator();
-        }
-        else{
-            percentileCalculater = new PercentileApproximator();
-        }
+//        if(certainty < 1) {
+//            percentileCalculater = new PercentileNormalApproximator();
+//        }
+//        else{
+//            percentileCalculater = new PercentileNormalApproximator();
+//        }
+        percentileCalculater = new PercentileApproximator();
+
         percentileCalculater.initialize(certainty);
 
 

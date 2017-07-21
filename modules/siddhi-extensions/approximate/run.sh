@@ -1,0 +1,2 @@
+#!/bin/bash
+java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:StartFlightRecording=settings=profile,duration=30s,dumponexit=true,filename=approximate-computing-20-7-2017.jfr -Xmx8g -Xms8g -cp .:target/siddhi-extension-approximate-3.1.3-SNAPSHOT-jar-with-dependencies.jar:classes:target/classes:target/test-classes:lib/junit-4.12.jar:lib/siddhi-core-3.1.2.jar:lib/log4j-1.2.17.wso2v1.jar:lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore org.wso2.siddhi.extension.approximate.PercentileExtensionTestCase
