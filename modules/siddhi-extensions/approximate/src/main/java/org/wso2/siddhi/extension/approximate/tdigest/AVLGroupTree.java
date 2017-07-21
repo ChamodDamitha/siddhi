@@ -202,12 +202,17 @@ final class AVLGroupTree{
     public long headSum(int node) {
         final int left = tree.leftNode(node);
         long sum = aggregatedCounts[left];
-        for (int n = node, p = tree.parentNode(node); p != AVLTree.NIL; n = p, p = tree.parentNode(n)) {
+        int n = node;
+        int p = tree.parentNode(node);
+
+        while ( p != AVLTree.NIL) {
             if (n == tree.rightNode(p)) {
-                final int leftP = tree.leftNode(p);
-                sum += counts[p] + aggregatedCounts[leftP];
+                sum += counts[p] + aggregatedCounts[tree.leftNode(p)];
             }
+            n = p;
+            p = tree.parentNode(n);
         }
+
         return sum;
     }
 

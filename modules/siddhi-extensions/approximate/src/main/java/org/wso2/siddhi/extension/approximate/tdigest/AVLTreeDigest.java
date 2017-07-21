@@ -44,7 +44,7 @@ public class AVLTreeDigest extends TDigest {
 
 //        empty tree
         if (start == AVLTree.NIL) {
-            assert avlGroupTree.size() == 0; // empty avlGroupTree
+//            assert avlGroupTree.size() == 0; // empty avlGroupTree
             avlGroupTree.add(x, w);
             count = w;
         }
@@ -72,7 +72,7 @@ public class AVLTreeDigest extends TDigest {
             long sum = avlGroupTree.headSum(start);
             double n = 0;
             for (int neighbor = start; neighbor != lastNeighbor; neighbor = avlGroupTree.nextNode(neighbor)) {
-                assert minDistance == Math.abs(avlGroupTree.mean(neighbor) - x);
+//                assert minDistance == Math.abs(avlGroupTree.mean(neighbor) - x);
                 double q = count == 1 ? 0.5 : (sum + (avlGroupTree.count(neighbor) - 1) / 2.0) / (count - 1);
                 double k = 4 * count * q * (1 - q) / compression;
 
@@ -127,9 +127,9 @@ public class AVLTreeDigest extends TDigest {
         nodes[0] = centroids.leastNode();
         for (int i = 1; i < nodes.length; ++i) {
             nodes[i] = centroids.nextNode(nodes[i - 1]);
-            assert nodes[i] != AVLTree.NIL;
+//            assert nodes[i] != AVLTree.NIL;
         }
-        assert centroids.nextNode(nodes[nodes.length - 1]) == AVLTree.NIL;
+//        assert centroids.nextNode(nodes[nodes.length - 1]) == AVLTree.NIL;
 
 
 //        randomly swap the nodes
@@ -175,7 +175,7 @@ public class AVLTreeDigest extends TDigest {
 
         double previousMean = Double.NaN, previousIndex = 0;
         int next = groupTree.floorSumNode((long) index);
-        assert next != AVLTree.NIL;
+//        assert next != AVLTree.NIL;
         long total = groupTree.headSum(next);
         final int prev = groupTree.previousNode(next);
         if (prev != AVLTree.NIL) {
@@ -188,7 +188,7 @@ public class AVLTreeDigest extends TDigest {
 
             if (nextIndex >= index) {
                 if (Double.isNaN(previousMean)) {
-                    assert total == 0 : total;
+//                    assert total == 0 : total;
                     if (nextIndex == previousIndex) {
                         return groupTree.mean(next);
                     }

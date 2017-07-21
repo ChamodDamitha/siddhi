@@ -157,7 +157,7 @@ public class PercentileExtension extends StreamProcessor{
 //        else{
 //            percentileCalculater = new PercentileNormalApproximator();
 //        }
-        percentileCalculater = new PercentileApproximator();
+        percentileCalculater = new PercentileNormalApproximator();
 
         percentileCalculater.initialize(certainty);
 
