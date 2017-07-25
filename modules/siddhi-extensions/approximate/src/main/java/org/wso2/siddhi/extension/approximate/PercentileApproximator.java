@@ -33,12 +33,17 @@ public class PercentileApproximator implements PercentileCalculater {
     }
 
     @Override
+    public void initialize(double percentile, double accuracy) {
+        tDigest = TDigest.createDigest(percentile, accuracy);
+    }
+
+    @Override
     public void add(double newData) {
         tDigest.add(newData);
     }
 
     @Override
     public double getPercentile(double percentileNumber) {
-        return tDigest.quantile(percentileNumber);
+        return tDigest.percentile(percentileNumber);
     }
 }

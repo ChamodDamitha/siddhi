@@ -41,10 +41,14 @@ import java.util.*;
  * &url=https%3A%2F%2Fraw.githubusercontent.com%2Ftdunning%2Ft-digest%2Fmaster%2Fdocs%2Ft-digest-paper%2Fhisto.pdf
  * &usg=AFQjCNFLJPx3pzBKx1ipxlLgzKtKA9ynNA
  */
+
+/**
+ * from inputStream#approximate:percentile(number,percentile,accuracy) ....
+ */
 public class PercentileExtension extends StreamProcessor{
 
     private double percentileNumber = 0;
-    private double certainty = 0.01;
+    private double accuracy = 0.01;
     private PercentileCalculater percentileCalculater;
 
     /**
@@ -144,22 +148,22 @@ public class PercentileExtension extends StreamProcessor{
 
         if (attributeExpressionLength>2 && attributeExpressionExecutors[2] instanceof ConstantExpressionExecutor){
             try {
-                certainty = ((Double)attributeExpressionExecutors[2].execute(null));
+                accuracy = ((Double)attributeExpressionExecutors[2].execute(null));
             } catch(ClassCastException c) {
                 throw new ExecutionPlanCreationException("Accuracy should be of type double and between 0 and 1");
             }
         }
 
-//      Create the initial PercentileCalculator based on the certainty
-//        if(certainty < 1) {
+//      Create the initial PercentileCalculator based on the accuracy
+//        if(accuracy < 1) {
 //            percentileCalculater = new PercentileNormalApproximator();
 //        }
 //        else{
 //            percentileCalculater = new PercentileNormalApproximator();
 //        }
-        percentileCalculater = new PercentileNormalApproximator();
+        percentileCalculater = new PercentileApproximator();
 
-        percentileCalculater.initialize(certainty);
+        percentileCalculater.initialize(percentileNumber, accuracy);
 
 
 //      Additional attribute declaration

@@ -23,6 +23,7 @@ package org.wso2.siddhi.extension.approximate;
  */
 public interface PercentileCalculater {
     void initialize(double certainty);
+    void initialize(double percentile, double accuracy);
     void add(double newData);
     double getPercentile(double percentileNumber);
 }

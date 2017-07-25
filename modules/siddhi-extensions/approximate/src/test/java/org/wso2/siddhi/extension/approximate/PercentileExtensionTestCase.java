@@ -47,7 +47,7 @@ public class PercentileExtensionTestCase {
 
         String inStreamDefinition = "define stream inputStream (number double);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream#approximate:percentile(number,0.5,0.01)" +
+                "from inputStream#approximate:percentile(number,0.5,0.1)" +
                 "select * " +
                 "insert into outputStream;");
 
@@ -97,14 +97,14 @@ public class PercentileExtensionTestCase {
 
     @Test
     public void testTdigestTestCase() throws InterruptedException {
-        final int noOfEvents = 100000000;
+        final int noOfEvents = 1000;
 
         log.info("tdigest TestCase ..............");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (number double);";
         String query = ("@info(name = 'query1') " +
-                "from inputStream#approximate:percentile(number,0.5,0.00001)" +
+                "from inputStream#approximate:percentile(number,0.5,0.001)" +
                 "select * " +
                 "insert into outputStream;");
 
@@ -117,8 +117,8 @@ public class PercentileExtensionTestCase {
             public void receive(Event[] events) {
 //                EventPrinter.print(events);
                 for(Event event : events){
-//                    Assert.assertEquals(i/2.0, event.getData(1));
-//                    i++;
+                    Assert.assertEquals(i/2.0, event.getData(1));
+                    i++;
                 }
                 eventArrived = true;
             }

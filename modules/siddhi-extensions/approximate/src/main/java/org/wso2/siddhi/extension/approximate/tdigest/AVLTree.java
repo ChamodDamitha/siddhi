@@ -1,21 +1,3 @@
-/*
-* Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
-*
-* WSO2 Inc. licenses this file to you under the Apache License,
-* Version 2.0 (the "License"); you may not use this file except
-* in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*/
-
 package org.wso2.siddhi.extension.approximate.tdigest;
 
 import com.sun.org.apache.xml.internal.utils.IntStack;
@@ -254,8 +236,8 @@ public abstract class AVLTree {
      */
     public void updateNode(int node) {
         //        find the closest nodes from both sides
-        final int prev = previousNode(node);
-        final int next = nextNode(node);
+        int prev = previousNode(node);
+        int next = nextNode(node);
 
 //      if node value is in between prev and next values
         if ((prev == NIL || compare(prev) > 0) && (next == NIL || compare(next) < 0)) {
@@ -280,7 +262,7 @@ public abstract class AVLTree {
 
 //        have both children
         if (leftNode(node) != NIL && rightNode(node) != NIL) {
-            final int next = nextNode(node);
+            int next = nextNode(node);
 //            assert next != NIL;
             swapNodes(node, next);
         }
@@ -288,7 +270,7 @@ public abstract class AVLTree {
 //        have less than 2 children
 //        assert leftNode(node) == NIL || rightNode(node) == NIL;
 
-        final int parent = parentNode(node);
+        int parent = parentNode(node);
         int child = leftNode(node);
         if (child == NIL) {
             child = rightNode(node);
@@ -342,8 +324,8 @@ public abstract class AVLTree {
      * @param node2
      */
     private void swapNodes(int node1, int node2) {
-        final int parent1 = parentNode(node1);
-        final int parent2 = parentNode(node2);
+        int parent1 = parentNode(node1);
+        int parent2 = parentNode(node2);
 
 //      set children of parents of parent1 and parent2
         if (parent1 != NIL) {
@@ -374,10 +356,10 @@ public abstract class AVLTree {
         setParentNode(node1, parent2);
         setParentNode(node2, parent1);
 
-        final int left1 = leftNode(node1);
-        final int left2 = leftNode(node2);
-        final int right1 = rightNode(node1);
-        final int right2 = rightNode(node2);
+        int left1 = leftNode(node1);
+        int left2 = leftNode(node2);
+        int right1 = rightNode(node1);
+        int right2 = rightNode(node2);
 
 
 //        set children of node1 and node2
@@ -404,8 +386,8 @@ public abstract class AVLTree {
 
 
 //        set depths of node1 and node2
-        final int depth1 = depth(node1);
-        final int depth2 = depth(node2);
+        int depth1 = depth(node1);
+        int depth2 = depth(node2);
         setDepth(node1, depth2);
         setDepth(node2, depth1);
     }
@@ -426,20 +408,20 @@ public abstract class AVLTree {
      */
     private void rebalance(int node) {
         for (int n = node; n != NIL; ) {
-            final int p = parentNode(n);
+            int p = parentNode(n);
 
             fixAggregateCounts(n);
 
             switch (balanceFactor(n)) {
                 case -2:
-                    final int right = rightNode(n);
+                    int right = rightNode(n);
                     if (balanceFactor(right) == 1) {
                         rotateRight(right);
                     }
                     rotateLeft(n);
                     break;
                 case 2:
-                    final int left = leftNode(n);
+                    int left = leftNode(n);
                     if (balanceFactor(left) == -1) {
                         rotateLeft(left);
                     }
@@ -470,13 +452,13 @@ public abstract class AVLTree {
      * @param node is the node
      */
     private void rotateLeft(int node) {
-        final int r = rightNode(node);
-        final int lr = leftNode(r);
+        int r = rightNode(node);
+        int lr = leftNode(r);
         setRightNode(node, lr);
         if (lr != NIL) {
             setParentNode(lr, node);
         }
-        final int p = parentNode(node);
+        int p = parentNode(node);
         setParentNode(r, p);
         if (p == NIL) {
             rootNode = r;
@@ -497,13 +479,13 @@ public abstract class AVLTree {
      * @param node is the node
      */
     private void rotateRight(int node) {
-        final int l = leftNode(node);
-        final int rl = rightNode(l);
+        int l = leftNode(node);
+        int rl = rightNode(l);
         setLeftNode(node, rl);
         if (rl != NIL) {
             setParentNode(rl, node);
         }
-        final int p = parentNode(node);
+        int p = parentNode(node);
         setParentNode(l, p);
         if (p == NIL) {
             rootNode = l;
@@ -548,7 +530,7 @@ public abstract class AVLTree {
     private static class NodeAllocator {
 
         private int nextNode;
-        private final IntStack releasedNodes;
+        private IntStack releasedNodes;
 
         NodeAllocator() {
             nextNode = NIL + 1;

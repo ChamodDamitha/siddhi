@@ -38,6 +38,11 @@ public class PercentileNormalApproximator implements PercentileCalculater{
     }
 
     @Override
+    public void initialize(double percentile, double accuracy) {
+
+    }
+
+    @Override
     public void add(double newData) {
         sum += newData;
         squareSum += (newData * newData);

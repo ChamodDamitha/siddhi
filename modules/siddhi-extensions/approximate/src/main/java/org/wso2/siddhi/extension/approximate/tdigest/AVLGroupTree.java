@@ -1,21 +1,3 @@
-/*
-* Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
-*
-* WSO2 Inc. licenses this file to you under the Apache License,
-* Version 2.0 (the "License"); you may not use this file except
-* in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*/
-
 package org.wso2.siddhi.extension.approximate.tdigest;
 
 import java.util.Arrays;
@@ -157,7 +139,7 @@ final class AVLGroupTree{
     public int floorNode(double centroid) {
         int floor = AVLTree.NIL;
         for (int node = tree.root(); node != AVLTree.NIL; ) {
-            final int cmp = Double.compare(centroid, mean(node));
+            int cmp = Double.compare(centroid, mean(node));
             if (cmp <= 0) {
                 node = tree.leftNode(node);
             } else {
@@ -175,8 +157,8 @@ final class AVLGroupTree{
     public int floorSumNode(long sum) {
         int floor = AVLTree.NIL;
         for (int node = tree.root(); node != AVLTree.NIL; ) {
-            final int left = tree.leftNode(node);
-            final long leftCount = aggregatedCounts[left];
+            int left = tree.leftNode(node);
+            long leftCount = aggregatedCounts[left];
             if (leftCount <= sum) {
                 floor = node;
                 sum -= leftCount + count(node);
@@ -200,7 +182,7 @@ final class AVLGroupTree{
      * is strictly before node
      */
     public long headSum(int node) {
-        final int left = tree.leftNode(node);
+        int left = tree.leftNode(node);
         long sum = aggregatedCounts[left];
         int n = node;
         int p = tree.parentNode(node);

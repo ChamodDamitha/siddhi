@@ -1,23 +1,4 @@
-/*
-* Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
-*
-* WSO2 Inc. licenses this file to you under the Apache License,
-* Version 2.0 (the "License"); you may not use this file except
-* in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied. See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*/
-
 package org.wso2.siddhi.extension.approximate.tdigest;
-
 
 public class AVLTreeDigest extends TDigest {
 
@@ -123,7 +104,7 @@ public class AVLTreeDigest extends TDigest {
         this.avlGroupTree = new AVLGroupTree();
 
 //        fill nodes in ascending order
-        final int[] nodes = new int[centroids.size()];
+        int[] nodes = new int[centroids.size()];
         nodes[0] = centroids.leastNode();
         for (int i = 1; i < nodes.length; ++i) {
             nodes[i] = centroids.nextNode(nodes[i - 1]);
@@ -134,8 +115,8 @@ public class AVLTreeDigest extends TDigest {
 
 //        randomly swap the nodes
         for (int i = centroids.size() - 1; i > 0; --i) {
-            final int other = gen.nextInt(i + 1);
-            final int tmp = nodes[other];
+            int other = gen.nextInt(i + 1);
+            int tmp = nodes[other];
             nodes[other] = nodes[i];
             nodes[i] = tmp;
         }
@@ -150,18 +131,18 @@ public class AVLTreeDigest extends TDigest {
 
 
     /**
-     * @param q The quantile in the range [0,1].
+     * @param q The percentile in the range [0,1].
      * @return
      */
     @Override
-    public double quantile(double q) {
+    public double percentile(double q) {
         if (q < 0 || q > 1) {
             throw new IllegalArgumentException("q should be in [0,1], got " + q);
         }
 
         AVLGroupTree groupTree = avlGroupTree;
 
-//        empty tree, So no quantile
+//        empty tree, So no percentile
         if (groupTree.size() == 0) {
             return Double.NaN;
         }
@@ -177,14 +158,14 @@ public class AVLTreeDigest extends TDigest {
         int next = groupTree.floorSumNode((long) index);
 //        assert next != AVLTree.NIL;
         long total = groupTree.headSum(next);
-        final int prev = groupTree.previousNode(next);
+        int prev = groupTree.previousNode(next);
         if (prev != AVLTree.NIL) {
             previousMean = groupTree.mean(prev);
             previousIndex = total - ((groupTree.count(prev) + 1.0) / 2);
         }
 
         while (true) {
-            final double nextIndex = total + ((groupTree.count(next) - 1.0) / 2);
+            double nextIndex = total + ((groupTree.count(next) - 1.0) / 2);
 
             if (nextIndex >= index) {
                 if (Double.isNaN(previousMean)) {
@@ -193,15 +174,15 @@ public class AVLTreeDigest extends TDigest {
                         return groupTree.mean(next);
                     }
                     int next2 = groupTree.nextNode(next);
-                    final double nextIndex2 = total + groupTree.count(next) + (groupTree.count(next2) - 1.0) / 2;
+                    double nextIndex2 = total + groupTree.count(next) + (groupTree.count(next2) - 1.0) / 2;
                     previousMean = (nextIndex2 * groupTree.mean(next) - nextIndex * groupTree.mean(next2)) / (nextIndex2 - nextIndex);
                 }
-                return quantile(index, previousIndex, nextIndex, previousMean, groupTree.mean(next));
+                return percentile(index, previousIndex, nextIndex, previousMean, groupTree.mean(next));
             }
             else if (groupTree.nextNode(next) == AVLTree.NIL) {
-                final double nextIndex2 = count - 1;
-                final double nextMean2 = (groupTree.mean(next) * (nextIndex2 - previousIndex) - previousMean * (nextIndex2 - nextIndex)) / (nextIndex - previousIndex);
-                return quantile(index, nextIndex, nextIndex2, groupTree.mean(next), nextMean2);
+                double nextIndex2 = count - 1;
+                double nextMean2 = (groupTree.mean(next) * (nextIndex2 - previousIndex) - previousMean * (nextIndex2 - nextIndex)) / (nextIndex - previousIndex);
+                return percentile(index, nextIndex, nextIndex2, groupTree.mean(next), nextMean2);
             }
             total += groupTree.count(next);
             previousMean = groupTree.mean(next);
