@@ -16,11 +16,8 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate;
+package org.wso2.siddhi.extension.approximate.percentileExtension;
 
-/**
- * Created by chamod on 7/13/17.
- */
 public interface PercentileCalculater {
     void initialize(double certainty);
     void initialize(double percentile, double accuracy);

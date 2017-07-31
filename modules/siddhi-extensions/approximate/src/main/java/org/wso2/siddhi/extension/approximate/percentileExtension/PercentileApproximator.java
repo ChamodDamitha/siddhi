@@ -16,14 +16,12 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate;
+
+package org.wso2.siddhi.extension.approximate.percentileExtension;
 
 
-import org.wso2.siddhi.extension.approximate.tdigest.TDigest;
+import org.wso2.siddhi.extension.approximate.percentileExtension.tdigest.TDigest;
 
-/**
- * Created by chamod on 7/13/17.
- */
 public class PercentileApproximator implements PercentileCalculater {
     private TDigest tDigest;
 

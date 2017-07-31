@@ -16,7 +16,7 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate;
+package org.wso2.siddhi.extension.approximate.percentileExtension;
 
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
 import org.wso2.siddhi.core.event.ComplexEvent;

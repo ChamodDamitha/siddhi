@@ -16,13 +16,10 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate;
+package org.wso2.siddhi.extension.approximate.percentileExtension;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 
-/**
- * Created by chamod on 7/13/17.
- */
 public class PercentileNormalApproximator implements PercentileCalculater{
     private double sum = 0;
     private double squareSum = 0;
