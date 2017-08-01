@@ -16,7 +16,7 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate.cardinalityExtension;
+package org.wso2.siddhi.extension.approximate.cardinality;
 
 import org.wso2.siddhi.core.config.ExecutionPlanContext;
 import org.wso2.siddhi.core.event.ComplexEvent;
@@ -29,8 +29,6 @@ import org.wso2.siddhi.core.executor.ConstantExpressionExecutor;
 import org.wso2.siddhi.core.executor.ExpressionExecutor;
 import org.wso2.siddhi.core.query.processor.Processor;
 import org.wso2.siddhi.core.query.processor.stream.StreamProcessor;
-import org.wso2.siddhi.extension.approximate.percentileExtension.PercentileApproximator;
-import org.wso2.siddhi.extension.approximate.percentileExtension.PercentileCalculater;
 import org.wso2.siddhi.query.api.definition.AbstractDefinition;
 import org.wso2.siddhi.query.api.definition.Attribute;
 

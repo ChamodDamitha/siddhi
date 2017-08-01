@@ -16,7 +16,7 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate.percentileExtension.tdigest;
+package org.wso2.siddhi.extension.approximate.percentile.tdigest;
 
 public class AVLTreeDigest extends TDigest {
 

@@ -15,7 +15,7 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.siddhi.extension.approximate.cardinalityExtension;
+package org.wso2.siddhi.extension.approximate.cardinality;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -16,7 +16,7 @@
 # under the License.
 #
 
-percentile=org.wso2.siddhi.extension.approximate.percentileExtension.PercentileExtension
+percentile=org.wso2.siddhi.extension.approximate.percentile.PercentileExtension
 
 
-cardinality=org.wso2.siddhi.extension.approximate.cardinalityExtension.CardinalityExtension
+cardinality=org.wso2.siddhi.extension.approximate.cardinality.CardinalityExtension

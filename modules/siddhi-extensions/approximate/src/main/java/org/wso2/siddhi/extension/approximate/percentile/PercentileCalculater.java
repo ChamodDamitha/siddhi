@@ -16,7 +16,7 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate.percentileExtension;
+package org.wso2.siddhi.extension.approximate.percentile;
 
 public interface PercentileCalculater {
     void initialize(double certainty);
