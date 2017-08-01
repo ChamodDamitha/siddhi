@@ -25,7 +25,7 @@ public class PercentileExtensionTestCase {
 
     @Test
     public void testPercentileExtensionTestCase() throws InterruptedException {
-        log.info("PercentileExtension TestCase ..............");
+        log.info("CardinalityExtension TestCase ..............");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (number double);";

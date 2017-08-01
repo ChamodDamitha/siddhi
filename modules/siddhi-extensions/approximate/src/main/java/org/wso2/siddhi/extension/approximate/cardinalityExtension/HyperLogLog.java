@@ -15,9 +15,8 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.siddhi.extension.approximate;
+package org.wso2.siddhi.extension.approximate.cardinalityExtension;
 
-import java.lang.reflect.Array;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 /**
@@ -47,10 +46,10 @@ public class HyperLogLog<E> {
 //        System.out.println("array size I : " + noOfBuckets); //TODO : added for testing
 
         lengthOfBucketId = (int)Math.ceil(Math.log(noOfBuckets) / Math.log(2));
-        System.out.println("bucket size : " + lengthOfBucketId); //TODO : added for testing
+//        System.out.println("bucket size : " + lengthOfBucketId); //TODO : added for testing
 
         noOfBuckets = (1 << lengthOfBucketId);
-        System.out.println("array size II : " + noOfBuckets); //TODO : added for testing
+//        System.out.println("array size II : " + noOfBuckets); //TODO : added for testing
 
         countArray = new int[noOfBuckets];
 
@@ -108,7 +107,7 @@ public class HyperLogLog<E> {
 //      if the estimate E is less than 2.5 * 32 and there are buckets with max-leading-zero count of zero,
 //      then instead return −32⋅log(V/32), where V is the number of buckets with max-leading-zero count = 0.
         if((estimatedCardinality < 2.5 * noOfBuckets) && noOfZeroBuckets > 0){       //threshold of 2.5x comes from the recommended load factor for Linear Counting
-            System.out.println("small....."); // TODO : added for testing
+//            System.out.println("small....."); // TODO : added for testing
             cardinality = (int)(-noOfBuckets * Math.log((double) noOfZeroBuckets / noOfBuckets));
 //            cardinality =  (long)(noOfBuckets * Math.log((double) noOfBuckets / noOfZeroBuckets));
         }
@@ -117,14 +116,14 @@ public class HyperLogLog<E> {
             cardinality = (int)Math.ceil(-(Math.pow(2,32) * Math.log(1 - (estimatedCardinality / (Math.pow(2,32))))));
         }
         else{
-            System.out.println("medium....."); // TODO : added for testing
+//            System.out.println("medium....."); // TODO : added for testing
             cardinality = estimatedCardinality;
         }
 
-//      TODO : added for testing
-        String confidenceInterval = String.format("confidence interval of cardinality : [%s, %s]",
-                cardinality - cardinality * getAccuracy(), cardinality + cardinality * getAccuracy());
-        System.out.println(confidenceInterval);
+////      TODO : added for testing
+//        String confidenceInterval = String.format("confidence interval of cardinality : [%s, %s]",
+//                cardinality - cardinality * getAccuracy(), cardinality + cardinality * getAccuracy());
+//        System.out.println(confidenceInterval);
 
         return cardinality;
     }

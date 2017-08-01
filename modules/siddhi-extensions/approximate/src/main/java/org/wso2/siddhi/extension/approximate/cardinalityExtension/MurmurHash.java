@@ -16,7 +16,7 @@
 * under the License.
 */
 
-package org.wso2.siddhi.extension.approximate;
+package org.wso2.siddhi.extension.approximate.cardinalityExtension;
 
 public final class MurmurHash {
     private MurmurHash() {}
