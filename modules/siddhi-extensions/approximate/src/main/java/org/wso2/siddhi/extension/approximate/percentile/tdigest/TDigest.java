@@ -21,8 +21,10 @@ package org.wso2.siddhi.extension.approximate.percentile.tdigest;
 import java.util.Random;
 
 
+/**
+ * A data structure to store centroids of a set of values
+ */
 public abstract class TDigest {
-
 
     protected Random gen = new Random();
 
@@ -33,7 +35,7 @@ public abstract class TDigest {
      * @param accuracy is a decimal in the range [0,1], lower the value higher the accuracy
      * @return an instance of TDigest class
      */
-    public static TDigest createDigest(double percentile, double accuracy){
+    public static TDigest createDigest(double percentile, double accuracy) {
 //      accuracy = percentile * (1 - percentile) * certainty = percentile * (1 - percentile) / compression
         double compression = percentile * (1 - percentile) / accuracy;
         return createDigest(compression);
@@ -46,7 +48,7 @@ public abstract class TDigest {
      * @return an instance of TDigest class
      */
     public static TDigest createDigest(double compression) {
-        if(compression < 1){
+        if (compression < 1) {
             throw new IllegalArgumentException("compression must be greater than 1");
         }
         return new AVLTreeDigest(compression);
@@ -98,7 +100,8 @@ public abstract class TDigest {
      * @param nextMean           The mean of the following centroid.
      * @return  The interpolated mean.
      */
-    static double percentile(double index, double previousIndex, double nextIndex, double previousMean, double nextMean) {
+    static double percentile(double index, double previousIndex, double nextIndex,
+                             double previousMean, double nextMean) {
         final double delta = nextIndex - previousIndex;
         final double previousWeight = (nextIndex - index) / delta;
         final double nextWeight = (index - previousIndex) / delta;

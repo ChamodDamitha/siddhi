@@ -18,6 +18,10 @@
 
 package org.wso2.siddhi.extension.approximate.percentile.tdigest;
 
+
+/**
+ * A tree data structure to store centroids of a set of values
+ */
 public class AVLTreeDigest extends TDigest {
 
     private double compression;
@@ -46,10 +50,7 @@ public class AVLTreeDigest extends TDigest {
 //            assert avlGroupTree.size() == 0; // empty avlGroupTree
             avlGroupTree.add(x, w);
             count = w;
-        }
-
-//        tree has nodes
-        else {
+        } else { //        tree has nodes
             double minDistance = Double.MAX_VALUE;
             int lastNeighbor = AVLTree.NIL;
 
@@ -164,12 +165,9 @@ public class AVLTreeDigest extends TDigest {
 //        empty tree, So no percentile
         if (groupTree.size() == 0) {
             return Double.NaN;
-        }
-
-//        only one centroid available
-        else if (groupTree.size() == 1) {
+        } else if (groupTree.size() == 1) {
             return groupTree.mean(groupTree.leastNode());
-        }
+        }//only one centroid available
 
         final double index = q * (count - 1);
 
@@ -194,13 +192,14 @@ public class AVLTreeDigest extends TDigest {
                     }
                     int next2 = groupTree.nextNode(next);
                     double nextIndex2 = total + groupTree.count(next) + (groupTree.count(next2) - 1.0) / 2;
-                    previousMean = (nextIndex2 * groupTree.mean(next) - nextIndex * groupTree.mean(next2)) / (nextIndex2 - nextIndex);
+                    previousMean = (nextIndex2 * groupTree.mean(next) - nextIndex * groupTree.mean(next2))
+                            / (nextIndex2 - nextIndex);
                 }
                 return percentile(index, previousIndex, nextIndex, previousMean, groupTree.mean(next));
-            }
-            else if (groupTree.nextNode(next) == AVLTree.NIL) {
+            } else if (groupTree.nextNode(next) == AVLTree.NIL) {
                 double nextIndex2 = count - 1;
-                double nextMean2 = (groupTree.mean(next) * (nextIndex2 - previousIndex) - previousMean * (nextIndex2 - nextIndex)) / (nextIndex - previousIndex);
+                double nextMean2 = (groupTree.mean(next) * (nextIndex2 - previousIndex) - previousMean *
+                        (nextIndex2 - nextIndex)) / (nextIndex - previousIndex);
                 return percentile(index, nextIndex, nextIndex2, groupTree.mean(next), nextMean2);
             }
             total += groupTree.count(next);

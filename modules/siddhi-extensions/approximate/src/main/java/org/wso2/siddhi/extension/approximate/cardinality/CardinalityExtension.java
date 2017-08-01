@@ -46,7 +46,7 @@ import java.util.List;
 /**
  * from inputStream#approximate:percentile(number,percentile,accuracy) ....
  */
-public class CardinalityExtension extends StreamProcessor{
+public class CardinalityExtension extends StreamProcessor {
 
     private double accuracy = 0.01;
     private HyperLogLog hyperLogLog;
@@ -118,7 +118,7 @@ public class CardinalityExtension extends StreamProcessor{
                 streamEventChunk.remove();
             } else {
 //                alter the stream
-                complexEventPopulater.populateComplexEvent(complexEvent,outputData);
+                complexEventPopulater.populateComplexEvent(complexEvent, outputData);
             }
         }
 
@@ -135,16 +135,17 @@ public class CardinalityExtension extends StreamProcessor{
      * @return the additional output attributes introduced by the function
      */
     @Override
-    protected List<Attribute> init(AbstractDefinition inputDefinition, ExpressionExecutor[] attributeExpressionExecutors,
+    protected List<Attribute> init(AbstractDefinition inputDefinition,
+                                   ExpressionExecutor[] attributeExpressionExecutors,
                                    ExecutionPlanContext executionPlanContext) {
 //      Capture constant inputs
-        if (attributeExpressionExecutors[1] instanceof ConstantExpressionExecutor){
+        if (attributeExpressionExecutors[1] instanceof ConstantExpressionExecutor) {
             try {
-                accuracy = ((Double)attributeExpressionExecutors[1].execute(null));
-                if((accuracy <= 0) || (accuracy >= 1)){
+                accuracy = ((Double) attributeExpressionExecutors[1].execute(null));
+                if ((accuracy <= 0) || (accuracy >= 1)) {
                     throw new ExecutionPlanCreationException("accuracy must be in the range of (0, 1)");
                 }
-            } catch(ClassCastException c) {
+            } catch (ClassCastException c) {
                 throw new ExecutionPlanCreationException("accuracy number should be of type double");
             }
         }
@@ -152,7 +153,7 @@ public class CardinalityExtension extends StreamProcessor{
 
 //      Additional attribute declaration
         ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-        attributes.add(new Attribute("cardinality",Attribute.Type.INT));
+        attributes.add(new Attribute("cardinality", Attribute.Type.INT));
 
         return attributes;
     }

@@ -18,6 +18,9 @@
 
 package org.wso2.siddhi.extension.approximate.percentile;
 
+/**
+ * Interface to calculate percentiles
+ */
 public interface PercentileCalculater {
     void initialize(double certainty);
     void initialize(double percentile, double accuracy);

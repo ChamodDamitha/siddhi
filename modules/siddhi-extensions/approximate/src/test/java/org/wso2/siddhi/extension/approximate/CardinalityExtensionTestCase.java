@@ -1,8 +1,8 @@
 
 package org.wso2.siddhi.extension.approximate;
 
-import junit.framework.Assert;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
@@ -13,7 +13,7 @@ import org.wso2.siddhi.core.stream.output.StreamCallback;
 import org.wso2.siddhi.core.util.EventPrinter;
 
 public class CardinalityExtensionTestCase {
-    static final Logger log = Logger.getLogger(CardinalityExtensionTestCase.class);
+    static final Logger LOG = Logger.getLogger(CardinalityExtensionTestCase.class);
     private volatile int count;
     private volatile boolean eventArrived;
 
@@ -29,7 +29,7 @@ public class CardinalityExtensionTestCase {
     public void testCardinalityTestCase() throws InterruptedException {
         final int noOfEvents = 1000;
 
-        log.info("tdigest TestCase ..............");
+        LOG.info("tdigest TestCase ..............");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (number int);";
@@ -38,7 +38,8 @@ public class CardinalityExtensionTestCase {
                 "select * " +
                 "insert into outputStream;");
 
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+        ExecutionPlanRuntime executionPlanRuntime =
+                siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("outputStream", new StreamCallback() {
 
@@ -46,7 +47,7 @@ public class CardinalityExtensionTestCase {
             @Override
             public void receive(Event[] events) {
                 EventPrinter.print(events);
-                for(Event event : events){
+                for (Event event : events) {
                     Assert.assertEquals(i, event.getData(1));
                     i++;
                 }
@@ -60,7 +61,7 @@ public class CardinalityExtensionTestCase {
         executionPlanRuntime.start();
 
 
-        for(double j = 0;j < noOfEvents; j++){
+        for (double j = 0; j < noOfEvents; j++) {
             inputHandler.send(new Object[]{j});
         }
 

@@ -23,7 +23,7 @@ import java.util.Arrays;
 /**
  * A tree of t-digest centroids.
  */
-final class AVLGroupTree{
+final class AVLGroupTree {
 
     /**
      * for insertion purposes
@@ -86,7 +86,8 @@ final class AVLGroupTree{
             @Override
             protected void fixAggregateCounts(int node) {
                 super.fixAggregateCounts(node);
-                aggregatedCounts[node] = counts[node] + aggregatedCounts[leftNode(node)] + aggregatedCounts[rightNode(node)];
+                aggregatedCounts[node] = counts[node] + aggregatedCounts[leftNode(node)] +
+                        aggregatedCounts[rightNode(node)];
             }
 
         };
@@ -205,7 +206,7 @@ final class AVLGroupTree{
         int n = node;
         int p = tree.parentNode(node);
 
-        while ( p != AVLTree.NIL) {
+        while (p != AVLTree.NIL) {
             if (n == tree.rightNode(p)) {
                 sum += counts[p] + aggregatedCounts[tree.leftNode(p)];
             }

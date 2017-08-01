@@ -20,7 +20,10 @@ package org.wso2.siddhi.extension.approximate.percentile;
 
 import org.apache.commons.math3.distribution.NormalDistribution;
 
-public class PercentileNormalApproximator implements PercentileCalculater{
+/**
+ * Calculate percentiles using a normal distribution
+ */
+public class PercentileNormalApproximator implements PercentileCalculater {
     private double sum = 0;
     private double squareSum = 0;
     private double count = 0;
@@ -43,15 +46,15 @@ public class PercentileNormalApproximator implements PercentileCalculater{
     public void add(double newData) {
         sum += newData;
         squareSum += (newData * newData);
-        count ++;
+        count++;
 
-        mean = sum/count;
-        stdDeviation = Math.sqrt((squareSum/count) - (mean * mean));
+        mean = sum / count;
+        stdDeviation = Math.sqrt((squareSum / count) - (mean * mean));
     }
 
     @Override
     public double getPercentile(double percentileNumber) {
-        return getpercentileValue(mean,stdDeviation,percentileNumber);
+        return getpercentileValue(mean, stdDeviation, percentileNumber);
     }
 
 
@@ -63,7 +66,7 @@ public class PercentileNormalApproximator implements PercentileCalculater{
      * @param percentile
      * @return
      */
-    public Double getpercentileValue(Double mean, Double stdDeviation, Double percentile){
+    public Double getpercentileValue(Double mean, Double stdDeviation, Double percentile) {
         double zValue = new NormalDistribution().inverseCumulativeProbability(percentile);
         return mean + zValue * stdDeviation;
     }

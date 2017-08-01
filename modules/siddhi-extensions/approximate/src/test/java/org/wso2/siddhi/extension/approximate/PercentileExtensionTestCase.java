@@ -1,8 +1,8 @@
 
 package org.wso2.siddhi.extension.approximate;
 
-import junit.framework.Assert;
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
@@ -13,7 +13,7 @@ import org.wso2.siddhi.core.stream.output.StreamCallback;
 import org.wso2.siddhi.core.util.EventPrinter;
 
 public class PercentileExtensionTestCase {
-    static final Logger log = Logger.getLogger(PercentileExtensionTestCase.class);
+    static final Logger LOG = Logger.getLogger(PercentileExtensionTestCase.class);
     private volatile int count;
     private volatile boolean eventArrived;
 
@@ -25,7 +25,7 @@ public class PercentileExtensionTestCase {
 
     @Test
     public void testPercentileExtensionTestCase() throws InterruptedException {
-        log.info("CardinalityExtension TestCase ..............");
+        LOG.info("CardinalityExtension TestCase ..............");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (number double);";
@@ -34,7 +34,8 @@ public class PercentileExtensionTestCase {
                 "select * " +
                 "insert into outputStream;");
 
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+        ExecutionPlanRuntime executionPlanRuntime =
+                siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("outputStream", new StreamCallback() {
             @Override
@@ -81,7 +82,7 @@ public class PercentileExtensionTestCase {
     public void testTdigestTestCase() throws InterruptedException {
         final int noOfEvents = 1000;
 
-        log.info("tdigest TestCase ..............");
+        LOG.info("tdigest TestCase ..............");
         SiddhiManager siddhiManager = new SiddhiManager();
 
         String inStreamDefinition = "define stream inputStream (number double);";
@@ -90,7 +91,8 @@ public class PercentileExtensionTestCase {
                 "select * " +
                 "insert into outputStream;");
 
-        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
+        ExecutionPlanRuntime executionPlanRuntime =
+                siddhiManager.createExecutionPlanRuntime(inStreamDefinition + query);
 
         executionPlanRuntime.addCallback("outputStream", new StreamCallback() {
 
@@ -98,8 +100,8 @@ public class PercentileExtensionTestCase {
             @Override
             public void receive(Event[] events) {
 //                EventPrinter.print(events);
-                for(Event event : events){
-                    Assert.assertEquals(i/2.0, event.getData(1));
+                for (Event event : events) {
+                    Assert.assertEquals(i / 2.0, event.getData(1));
                     i++;
                 }
                 eventArrived = true;
@@ -112,7 +114,7 @@ public class PercentileExtensionTestCase {
         executionPlanRuntime.start();
 
 
-        for(double j = 0;j < noOfEvents; j++){
+        for (double j = 0; j < noOfEvents; j++) {
             inputHandler.send(new Object[]{j});
         }
 

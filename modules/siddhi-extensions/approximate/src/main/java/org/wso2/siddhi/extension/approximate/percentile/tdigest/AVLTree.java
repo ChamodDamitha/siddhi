@@ -207,13 +207,10 @@ public abstract class AVLTree {
             copyNewData(rootNode);
             fixAggregateCounts(rootNode);
             return true;
-        }
-
-//        tree is not empty
-        else {
+        } else { //        tree is not empty
             int node = rootNode;
 //            assert parentNode(rootNode) == NIL;
-            int parent;// to track the final node
+            int parent; // to track the final node
             int cmp;
             do {
                 cmp = compare(node);
@@ -263,8 +260,7 @@ public abstract class AVLTree {
             for (int n = node; n != NIL; n = parentNode(n)) {
                 fixAggregateCounts(n);
             }
-        }
-        else {
+        } else {
             removeNode(node);
             add();
         }
@@ -307,9 +303,7 @@ public abstract class AVLTree {
                     setRightNode(parent, NIL);
                 }
             }
-        }
-//        have 1 child
-        else {
+        } else { //        have 1 child
             if (node == rootNode) {
 //                assert size() == 2;
                 rootNode = child;

@@ -22,12 +22,15 @@ package org.wso2.siddhi.extension.approximate.percentile;
 
 import org.wso2.siddhi.extension.approximate.percentile.tdigest.TDigest;
 
+/**
+ * Calaculate percentiles using TDigest algorithm
+ */
 public class PercentileApproximator implements PercentileCalculater {
     private TDigest tDigest;
 
     @Override
     public void initialize(double certainty) {
-        tDigest = TDigest.createDigest(1/certainty);
+        tDigest = TDigest.createDigest(1 / certainty);
     }
 
     @Override

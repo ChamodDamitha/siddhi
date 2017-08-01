@@ -32,7 +32,9 @@ import org.wso2.siddhi.core.query.processor.stream.StreamProcessor;
 import org.wso2.siddhi.query.api.definition.AbstractDefinition;
 import org.wso2.siddhi.query.api.definition.Attribute;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * The following code conducts finding percentiles of an event stream.
@@ -45,7 +47,7 @@ import java.util.*;
 /**
  * from inputStream#approximate:percentile(number,percentile,accuracy) ....
  */
-public class PercentileExtension extends StreamProcessor{
+public class PercentileExtension extends StreamProcessor {
 
     private double percentileNumber = 0;
     private double accuracy = 0.01;
@@ -112,13 +114,13 @@ public class PercentileExtension extends StreamProcessor{
             double newData = (Double) attributeExpressionExecutors[0].execute(complexEvent);
             percentileCalculater.add(newData);
 
-            Object[] outputData = {percentileCalculater.getPercentile(percentileNumber)};
+            Object[] outputData = { percentileCalculater.getPercentile(percentileNumber) };
 
             if (outputData == null) {
                 streamEventChunk.remove();
             } else {
 //                alter the stream
-                complexEventPopulater.populateComplexEvent(complexEvent,outputData);
+                complexEventPopulater.populateComplexEvent(complexEvent, outputData);
             }
         }
 
@@ -135,21 +137,22 @@ public class PercentileExtension extends StreamProcessor{
      * @return the additional output attributes introduced by the function
      */
     @Override
-    protected List<Attribute> init(AbstractDefinition inputDefinition, ExpressionExecutor[] attributeExpressionExecutors,
+    protected List<Attribute> init(AbstractDefinition inputDefinition,
+                                   ExpressionExecutor[] attributeExpressionExecutors,
                                    ExecutionPlanContext executionPlanContext) {
 //      Capture constant inputs
-        if (attributeExpressionExecutors[1] instanceof ConstantExpressionExecutor){
+        if (attributeExpressionExecutors[1] instanceof ConstantExpressionExecutor) {
             try {
-                percentileNumber = ((Double)attributeExpressionExecutors[1].execute(null));
-            } catch(ClassCastException c) {
+                percentileNumber = ((Double) attributeExpressionExecutors[1].execute(null));
+            } catch (ClassCastException c) {
                 throw new ExecutionPlanCreationException("Percentile number should be of type double");
             }
         }
 
-        if (attributeExpressionLength>2 && attributeExpressionExecutors[2] instanceof ConstantExpressionExecutor){
+        if (attributeExpressionLength > 2 && attributeExpressionExecutors[2] instanceof ConstantExpressionExecutor) {
             try {
-                accuracy = ((Double)attributeExpressionExecutors[2].execute(null));
-            } catch(ClassCastException c) {
+                accuracy = ((Double) attributeExpressionExecutors[2].execute(null));
+            } catch (ClassCastException c) {
                 throw new ExecutionPlanCreationException("Accuracy should be of type double and between 0 and 1");
             }
         }
@@ -168,7 +171,7 @@ public class PercentileExtension extends StreamProcessor{
 
 //      Additional attribute declaration
         ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-        attributes.add(new Attribute("percentile",Attribute.Type.DOUBLE));
+        attributes.add(new Attribute("percentile", Attribute.Type.DOUBLE));
 
         return attributes;
     }
