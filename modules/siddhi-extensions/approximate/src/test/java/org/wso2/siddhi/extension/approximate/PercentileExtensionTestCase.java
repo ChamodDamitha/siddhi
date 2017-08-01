@@ -60,7 +60,6 @@ public class PercentileExtensionTestCase {
         });
 
 
-
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
         executionPlanRuntime.start();
 //        for(double i=120;i>0;i-=0.5) {
