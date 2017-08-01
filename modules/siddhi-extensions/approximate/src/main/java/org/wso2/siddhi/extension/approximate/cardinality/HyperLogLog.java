@@ -17,18 +17,27 @@
 */
 package org.wso2.siddhi.extension.approximate.cardinality;
 
+import org.apache.log4j.Logger;
+import org.wso2.siddhi.core.config.SiddhiContext;
+import org.wso2.siddhi.extension.approximate.percentile.tdigest.AVLTree;
+import sun.rmi.runtime.Log;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-/**
- * Created by chamod on 7/27/17.
- */
+
+
+
 public class HyperLogLog<E> {
+
+
+    protected static final Logger LOG = Logger.getLogger(HyperLogLog.class);
 
     private double accuracy;
     private int noOfBuckets;
     private int lengthOfBucketId;
     private int[] countArray;
 
+    private final double ERROR_FACTOR = 1.04;
     private final double ESTIMATION_FACTOR = 0.7;
 
     private MessageDigest messageDigest;
@@ -41,8 +50,8 @@ public class HyperLogLog<E> {
     public HyperLogLog(double accuracy) {
         this.accuracy = accuracy;
 
-//      accuracy = 1.04 / sqrt(noOfBuckets) = > noOfBuckets = (1.04 / accuracy) ^ 2
-        noOfBuckets = (int)Math.ceil(Math.pow(1.04 / accuracy, 2));
+//      accuracy = ERROR_FACTOR / sqrt(noOfBuckets) = > noOfBuckets = (ERROR_FACTOR / accuracy) ^ 2
+        noOfBuckets = (int)Math.ceil(Math.pow(ERROR_FACTOR / accuracy, 2));
 //        System.out.println("array size I : " + noOfBuckets); //TODO : added for testing
 
         lengthOfBucketId = (int)Math.ceil(Math.log(noOfBuckets) / Math.log(2));
@@ -57,24 +66,24 @@ public class HyperLogLog<E> {
         try {
             this.messageDigest = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            LOG.error("Error while ....'" + "' in Siddhi app , " + e.getMessage(), e);
         }
 
     }
 
     /**
      * Compute the accuracy using the count array size
-     * @return
+     * @return the accuracy value
      */
     public double getAccuracy(){
-        return (1.04 / Math.sqrt(noOfBuckets));
+        return (ERROR_FACTOR / Math.sqrt(noOfBuckets));
     }
 
     /**
      * Calculate the cardinality(number of unique items in a set)
-     * by calculating the harmonic mean of the counts in the buckets
-     * Check for the upper and lower bounds to modify the estimation
-     * @return
+     * by calculating the harmonic mean of the counts in the buckets.
+     * Check for the upper and lower bounds to modify the estimation.
+     * @return the cardinality value
      */
     public long getCardinality(){
 //        printArray(); // TODO : added for testing
@@ -104,16 +113,19 @@ public class HyperLogLog<E> {
 //      calculate the estimated cardinality
         estimatedCardinality = (int)Math.ceil(noOfBuckets * ESTIMATION_FACTOR * harmonicCountMean);
 
+        final double _2pow32 = Math.pow(2,32);
+
 //      if the estimate E is less than 2.5 * 32 and there are buckets with max-leading-zero count of zero,
 //      then instead return −32⋅log(V/32), where V is the number of buckets with max-leading-zero count = 0.
-        if((estimatedCardinality < 2.5 * noOfBuckets) && noOfZeroBuckets > 0){       //threshold of 2.5x comes from the recommended load factor for Linear Counting
+//      threshold of 2.5x comes from the recommended load factor for Linear Counting
+        if((estimatedCardinality < 2.5 * noOfBuckets) && noOfZeroBuckets > 0){
 //            System.out.println("small....."); // TODO : added for testing
             cardinality = (int)(-noOfBuckets * Math.log((double) noOfZeroBuckets / noOfBuckets));
 //            cardinality =  (long)(noOfBuckets * Math.log((double) noOfBuckets / noOfZeroBuckets));
         }
 //       if E > 2 ^ (32) / 30 : return −2 ^ (32) * log(1 − E / 2 ^ (32))
-        else if(estimatedCardinality > (Math.pow(2,32) / 30.0)){
-            cardinality = (int)Math.ceil(-(Math.pow(2,32) * Math.log(1 - (estimatedCardinality / (Math.pow(2,32))))));
+        else if(estimatedCardinality > (_2pow32 / 30.0)){
+            cardinality = (int)Math.ceil(-(_2pow32 * Math.log(1 - (estimatedCardinality / (_2pow32)))));
         }
         else{
 //            System.out.println("medium....."); // TODO : added for testing
@@ -154,19 +166,22 @@ public class HyperLogLog<E> {
      * Update the zero count value in the relevant bucket if the given value is larger than the existing value
      * @param index is the bucket ID of the relevant bucket
      * @param leadingZeroCount is the new zero count
+     * @return {@code true} if the bucket is updated, {@code false} if the bucket is not updated
      */
-    private void updateBucket(int index, int leadingZeroCount){
+    private boolean updateBucket(int index, int leadingZeroCount){
         long currentZeroCount = countArray[index];
         if(currentZeroCount < leadingZeroCount){
             countArray[index] = leadingZeroCount;
+            return true;
         }
+        return false;
     }
 
 
     /**
      * Compute an integer hash value for a given value
      * @param value to be hashed
-     * @return
+     * @return integer hash value
      */
     public int getHashValue(E value){
         byte[] bytes = messageDigest.digest(getBytes(value));

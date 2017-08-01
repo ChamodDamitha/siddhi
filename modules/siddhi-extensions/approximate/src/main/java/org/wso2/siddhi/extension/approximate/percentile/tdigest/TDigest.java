@@ -31,7 +31,7 @@ public abstract class TDigest {
      * Therefore, to specify an accuracy, the percentile must also be specified.
      * @param percentile is a decimal in the range [0,1]
      * @param accuracy is a decimal in the range [0,1], lower the value higher the accuracy
-     * @return
+     * @return an instance of TDigest class
      */
     public static TDigest createDigest(double percentile, double accuracy){
 //      accuracy = percentile * (1 - percentile) * certainty = percentile * (1 - percentile) / compression
@@ -43,7 +43,7 @@ public abstract class TDigest {
     /**
      * Create a TDigest by specifying the compression
      * @param compression is the compression factor which is greater than 1
-     * @return
+     * @return an instance of TDigest class
      */
     public static TDigest createDigest(double compression) {
         if(compression < 1){

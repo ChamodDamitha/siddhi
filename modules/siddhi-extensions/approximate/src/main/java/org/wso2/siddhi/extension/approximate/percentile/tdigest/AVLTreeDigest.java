@@ -149,8 +149,9 @@ public class AVLTreeDigest extends TDigest {
 
 
     /**
-     * @param q The percentile in the range [0,1].
-     * @return
+     * calculate the percentile value for a given position
+     * @param q is the position of percentile in the range [0,1].
+     * @return the value of the percentile
      */
     @Override
     public double percentile(double q) {

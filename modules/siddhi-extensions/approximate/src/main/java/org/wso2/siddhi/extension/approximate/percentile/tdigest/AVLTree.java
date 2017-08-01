@@ -411,9 +411,9 @@ public abstract class AVLTree {
     }
 
     /**
-     * return the difference of depths of left sub tree and right sub tree
+     * calculate the difference of depths of left sub tree and right sub tree
      * @param node
-     * @return
+     * @return the difference of depths
      */
     private int balanceFactor(int node) {
         return depth(leftNode(node)) - depth(rightNode(node));
