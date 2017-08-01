@@ -153,7 +153,7 @@ public class CardinalityExtension extends StreamProcessor {
 
 //      Additional attribute declaration
         ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-        attributes.add(new Attribute("cardinality", Attribute.Type.INT));
+        attributes.add(new Attribute("cardinality", Attribute.Type.LONG));
 
         return attributes;
     }
