@@ -20,3 +20,5 @@ percentile=org.wso2.siddhi.extension.approximate.percentile.PercentileExtension
 
 
 cardinality=org.wso2.siddhi.extension.approximate.cardinality.CardinalityExtension
+
+similarity=org.wso2.siddhi.extension.approximate.similarity.SimilarityExtension
