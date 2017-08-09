@@ -19,7 +19,6 @@
 package org.wso2.siddhi.extension.approximate;
 
 import org.apache.log4j.Logger;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
@@ -95,5 +94,5 @@ public class SimilarityExtensionTestCase {
         executionPlanRuntime.shutdown();
     }
 
-  
+
 }

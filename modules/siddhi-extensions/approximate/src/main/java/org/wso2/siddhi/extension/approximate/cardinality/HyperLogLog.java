@@ -17,15 +17,9 @@
 */
 package org.wso2.siddhi.extension.approximate.cardinality;
 
-import org.apache.log4j.Logger;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-
-
 /**
  * A probabilistic data structure to calculate cardinality of a set
+ *
  * @param <E> is the type of objects in the set
  */
 public class HyperLogLog<E> {
@@ -42,6 +36,7 @@ public class HyperLogLog<E> {
     /**
      * Create a new HyperLogLog by specifying the accuracy
      * Based on the accuracy the array size is calculated
+     *
      * @param accuracy is a number in the range (0, 1)
      */
     public HyperLogLog(double accuracy) {
@@ -63,6 +58,7 @@ public class HyperLogLog<E> {
 
     /**
      * Compute the accuracy using the count array size
+     *
      * @return the accuracy value
      */
     public double getAccuracy() {
@@ -73,6 +69,7 @@ public class HyperLogLog<E> {
      * Calculate the cardinality(number of unique items in a set)
      * by calculating the harmonic mean of the counts in the buckets.
      * Check for the upper and lower bounds to modify the estimation.
+     *
      * @return the cardinality value
      */
     public long getCardinality() {
@@ -118,10 +115,11 @@ public class HyperLogLog<E> {
 
     /**
      * Calculate the confidence interval for the cardinality
+     *
      * @return an long array which contain the lower bound and the upper bound of the confidence interval
-     *         e.g. - {313, 350} for the cardinality of 320
+     * e.g. - {313, 350} for the cardinality of 320
      */
-    public long[] getConfidenceInterval(){
+    public long[] getConfidenceInterval() {
         long cardinality = getCardinality();
         double accuracy = getAccuracy();
         long[] confidenceInterval = new long[2];
@@ -132,6 +130,7 @@ public class HyperLogLog<E> {
 
     /**
      * Adds a new item to the array by hashing and setting the count of relevant bucckets
+     *
      * @param item
      */
     public void addItem(E item) {
@@ -150,7 +149,8 @@ public class HyperLogLog<E> {
 
     /**
      * Update the zero count value in the relevant bucket if the given value is larger than the existing value
-     * @param index is the bucket ID of the relevant bucket
+     *
+     * @param index            is the bucket ID of the relevant bucket
      * @param leadingZeroCount is the new zero count
      * @return {@code true} if the bucket is updated, {@code false} if the bucket is not updated
      */
@@ -165,6 +165,7 @@ public class HyperLogLog<E> {
 
     /**
      * Compute an integer hash value for a given value
+     *
      * @param value to be hashed
      * @return integer hash value
      */
@@ -174,8 +175,9 @@ public class HyperLogLog<E> {
 
     /**
      * Calculate the {@code estimationFactor} based on the length of bucket id and number of buckets
+     *
      * @param lengthOfBucketId is the length of bucket id
-     * @param noOfBuckets is the number of buckets
+     * @param noOfBuckets      is the number of buckets
      * @return {@code estimationFactor}
      */
     private double getEstimationFactor(int lengthOfBucketId, int noOfBuckets) {

@@ -17,25 +17,27 @@
 */
 
 package org.wso2.siddhi.extension.approximate.cardinality;
+
 /**
  * Calculate hash values for any type of object
  */
 public final class MurmurHash {
-    private MurmurHash() {}
+    private MurmurHash() {
+    }
 
     public static int hash(Object o) {
-        if (o == null){
+        if (o == null) {
             return 0;
-        } else if (o instanceof Long){
-            return hashLong(((Long)o).longValue());
-        } else if (o instanceof Integer){
-            return  hashLong((long) ((Integer)o).intValue());
-        } else if (o instanceof Double){
-            return hashLong(Double.doubleToRawLongBits(((Double)o).doubleValue()));
-        } else if (o instanceof Float){
-            return hashLong((long)Float.floatToRawIntBits(((Float)o).floatValue()));
-        } else if (o instanceof String){
-            return hash(((String)o).getBytes());
+        } else if (o instanceof Long) {
+            return hashLong(((Long) o).longValue());
+        } else if (o instanceof Integer) {
+            return hashLong((long) ((Integer) o).intValue());
+        } else if (o instanceof Double) {
+            return hashLong(Double.doubleToRawLongBits(((Double) o).doubleValue()));
+        } else if (o instanceof Float) {
+            return hashLong((long) Float.floatToRawIntBits(((Float) o).floatValue()));
+        } else if (o instanceof String) {
+            return hash(((String) o).getBytes());
         } else {
             return hash(o.toString());
         }

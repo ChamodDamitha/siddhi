@@ -114,6 +114,7 @@ public class PercentileExtensionTestCase {
         executionPlanRuntime.addCallback("outputStream", new StreamCallback() {
 
             int i = 0;
+
             @Override
             public void receive(Event[] events) {
 //                EventPrinter.print(events);
@@ -124,7 +125,6 @@ public class PercentileExtensionTestCase {
                 eventArrived = true;
             }
         });
-
 
 
         InputHandler inputHandler = executionPlanRuntime.getInputHandler("inputStream");
@@ -141,5 +141,5 @@ public class PercentileExtensionTestCase {
         Assert.assertTrue(eventArrived);
         executionPlanRuntime.shutdown();
     }
-  
+
 }

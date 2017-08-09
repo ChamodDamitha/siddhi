@@ -114,15 +114,15 @@ public class PercentileExtension extends StreamProcessor {
             Object newDataObject = attributeExpressionExecutors[0].execute(complexEvent);
             double newData;
 
-            try{
+            try {
                 newData = (Double) newDataObject;
-            }catch (ClassCastException e){
+            } catch (ClassCastException e) {
                 newData = ((Number) newDataObject).doubleValue();
             }
 
             percentileCalculater.add(newData);
 
-            Object[] outputData = { percentileCalculater.getPercentile(percentileNumber) };
+            Object[] outputData = {percentileCalculater.getPercentile(percentileNumber)};
 
             if (outputData == null) {
                 streamEventChunk.remove();

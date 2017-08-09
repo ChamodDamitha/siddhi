@@ -1,4 +1,4 @@
-package org.wso2.siddhi.extension.approximate.similarity;/*
+/*
 * Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 * WSO2 Inc. licenses this file to you under the Apache License,
@@ -15,11 +15,13 @@ package org.wso2.siddhi.extension.approximate.similarity;/*
 * specific language governing permissions and limitations
 * under the License.
 */
+package org.wso2.siddhi.extension.approximate.similarity;
 
 import java.util.Random;
 
 /**
  * Probabilistic data structure to calculate the similarity of two data sets
+ *
  * @param <E> is the type of data to be checked for similarity
  */
 public class MinHash<E> {
@@ -34,15 +36,16 @@ public class MinHash<E> {
     /**
      * Create a Minhash based on a specified accuracy
      * @param accuracy
-     * @return an instance of MinHash
      */
-    public MinHash(double accuracy){
-        int noOfHashFunctions = (int)Math.ceil(1 / (accuracy * accuracy));
+    public MinHash(double accuracy) {
+        int noOfHashFunctions = (int) Math.ceil(1 / (accuracy * accuracy));
         initMinHash(noOfHashFunctions);
         setAccuracy(accuracy);
     }
+
     /**
      * Set the accuracy of Minhash
+     *
      * @param accuracy
      */
     public void setAccuracy(double accuracy) {
@@ -51,6 +54,7 @@ public class MinHash<E> {
 
     /**
      * Return the accuracy of Minhash
+     *
      * @return a double value of the accuracy
      */
     public double getAccuracy() {
@@ -59,6 +63,7 @@ public class MinHash<E> {
 
     /**
      * Initialize the MinHash by specifying the number of signatures(correspond to hash functions)
+     *
      * @param noOfHashFunctions is the number of hash functions
      */
     private void initMinHash(int noOfHashFunctions) {
@@ -76,6 +81,7 @@ public class MinHash<E> {
 
     /**
      * Adding the new property to the MinHash by calculating their signatures
+     *
      * @param firstSetValue
      * @param secondSetValue
      * @return
@@ -120,6 +126,7 @@ public class MinHash<E> {
 
     /**
      * Get the similarity of the two sets
+     *
      * @return the similarity as rate, a number in the range [0, 1]
      */
     public double getSimilarity() {
@@ -129,8 +136,9 @@ public class MinHash<E> {
 
     /**
      * Calculate hash values for items from two sets
-     * @param item1 is the item from first set
-     * @param item2 is the item from second set
+     *
+     * @param item1      is the item from first set
+     * @param item2      is the item from second set
      * @param noOfHashes is the number of hash values needed
      * @return a 2D integer array containing hash values for each item
      */
@@ -153,10 +161,4 @@ public class MinHash<E> {
     }
 
 
-    void print(int[] a) {
-        for (int x : a) {
-            System.out.print(a + ", ");
-        }
-        System.out.println();
-    }
 }
