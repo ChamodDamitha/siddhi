@@ -45,7 +45,7 @@ public class PercentileExtensionTestCase {
         LOG.info("CardinalityExtension TestCase ..............");
         SiddhiManager siddhiManager = new SiddhiManager();
 
-        String inStreamDefinition = "define stream inputStream (number double);";
+        String inStreamDefinition = "define stream inputStream (number long);";
         String query = ("@info(name = 'query1') " +
                 "from inputStream#approximate:percentile(number,0.5,0.1)" +
                 "select * " +
@@ -85,7 +85,7 @@ public class PercentileExtensionTestCase {
 //
 //        }
 
-        inputHandler.send(new Object[]{2.3});
+        inputHandler.send(new Object[]{23454363466336L});
         inputHandler.send(new Object[]{4.4});
         inputHandler.send(new Object[]{1.8});
         inputHandler.send(new Object[]{34.0});
