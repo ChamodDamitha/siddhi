@@ -31,26 +31,28 @@ public abstract class TDigest {
     /**
      * TDigest provide a relative accuracy for different percentiles.
      * Therefore, to specify an accuracy, the percentile must also be specified.
+     *
      * @param percentile is a decimal in the range [0,1]
-     * @param accuracy is a decimal in the range [0,1], lower the value higher the accuracy
+     * @param accuracy   is a decimal in the range [0,1], lower the value higher the accuracy
      * @return an instance of TDigest class
      */
     public static TDigest createDigest(double percentile, double accuracy) {
-//      accuracy = percentile * (1 - percentile) * certainty = percentile * (1 - percentile) / compression
-        double compression = percentile * (1 - percentile) / accuracy;
+//      accuracy = 4 * percentile * (1 - percentile) * certainty = 4 * percentile * (1 - percentile) / compression
+        double compression = 4 * percentile * (1 - percentile) / accuracy;
+        if (compression < 1) {
+            throw new IllegalArgumentException("a lower accuracy of " + accuracy + " cannot be achieved");
+        }
         return createDigest(compression);
     }
 
 
     /**
      * Create a TDigest by specifying the compression
+     *
      * @param compression is the compression factor which is greater than 1
      * @return an instance of TDigest class
      */
     public static TDigest createDigest(double compression) {
-        if (compression < 1) {
-            throw new IllegalArgumentException("compression must be greater than 1");
-        }
         return new AVLTreeDigest(compression);
     }
 
@@ -81,7 +83,6 @@ public abstract class TDigest {
     public abstract double percentile(double q);
 
 
-
     /**
      * Compute the weighted average between x1 with a weight of
      * w1 and x2 with a weight of w2
@@ -93,12 +94,12 @@ public abstract class TDigest {
     /**
      * Computes an interpolated value of a percentile that is between two centroids.
      *
-     * @param index              percentile desired
-     * @param previousIndex      percentile corresponding to the center of the previous centroid.
-     * @param nextIndex          percentile corresponding to the center of the following centroid.
-     * @param previousMean       The mean of the previous centroid.
-     * @param nextMean           The mean of the following centroid.
-     * @return  The interpolated mean.
+     * @param index         percentile desired
+     * @param previousIndex percentile corresponding to the center of the previous centroid.
+     * @param nextIndex     percentile corresponding to the center of the following centroid.
+     * @param previousMean  The mean of the previous centroid.
+     * @param nextMean      The mean of the following centroid.
+     * @return The interpolated mean.
      */
     static double percentile(double index, double previousIndex, double nextIndex,
                              double previousMean, double nextMean) {
@@ -117,8 +118,6 @@ public abstract class TDigest {
     public void add(double x) {
         add(x, 1);
     }
-
-
 
 
 }
